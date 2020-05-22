@@ -58,8 +58,14 @@ export default {
              if(valid){
                 // promise   返回类型  用await修饰成think方法
                const { data: res } = await this.$http.post("login", this.loginFrom)
-               if(res.meta.status !== 200)return console.log("登录失败")
-               console.log("登录成功")
+               if(res.meta.status !== 200)return this.$message.error('登录失败')
+                this.$message.success("登录成功")
+                //1 登录成功后将token 保存到客户端的sessionStroage中
+                window.sessionStorage.setItem("token",res.data.token)
+                //2 tokenSession只能崽网站打开的期间有效
+                
+                //3 通过编译式导航跳转到后台的主页，路由地址是 /home
+                this.$router.push('/home')
              }
          }) 
       }
